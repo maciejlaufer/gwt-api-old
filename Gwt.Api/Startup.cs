@@ -43,7 +43,7 @@ namespace Gwt.Api
         app.UseStatusCodePages();
       }
 
-      app.UseHttpsRedirection();
+      // app.UseHttpsRedirection();
       app.UseRouting();
       app.UseAuthorization();
 

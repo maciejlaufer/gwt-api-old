@@ -10,8 +10,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Gwt.Api.Migrations
 {
     [DbContext(typeof(GwtContext))]
-    [Migration("20200102200019_FirstSeed")]
-    partial class FirstSeed
+    [Migration("20200104071559_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,21 +30,12 @@ namespace Gwt.Api.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("text");
 
+                    b.Property<string>("Username")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("837d3ad1-ecad-441d-8f99-39843cf4f574"),
-                            FirstName = "Johnny"
-                        },
-                        new
-                        {
-                            Id = new Guid("852ed8fa-3f1c-457a-9136-8dcf31d8713e"),
-                            FirstName = "Carl"
-                        });
                 });
 #pragma warning restore 612, 618
         }

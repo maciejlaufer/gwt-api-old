@@ -12,6 +12,7 @@ namespace Gwt.Api.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false),
+                    Username = table.Column<string>(nullable: true),
                     FirstName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
