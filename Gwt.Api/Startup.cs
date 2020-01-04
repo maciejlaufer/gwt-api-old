@@ -8,6 +8,7 @@ using Gwt.Repositories.User;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -32,7 +33,12 @@ namespace Gwt.Api
       services.AddTransient<IUserRepository, UserRepository>();
       services.AddControllers();
 
-      services.AddDbContext<GwtContext>(options => options.UseNpgsql(Configuration.GetConnectionString("GwtDatabase")));
+      services.AddDbContext<GwtContext>(options =>
+        options.UseNpgsql(Configuration.GetConnectionString(nameof(GwtContext))));
+
+      services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+        .AddEntityFrameworkStores<GwtContext>()
+        .AddDefaultTokenProviders();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,7 +53,7 @@ namespace Gwt.Api
           context.Database.Migrate();
         }
 
-        context.EnsureSeeded(env.IsDevelopment());
+        // context.EnsureSeed-ed(env.IsDevelopment());
       }
 
       if (env.IsDevelopment())
@@ -59,6 +65,7 @@ namespace Gwt.Api
       // app.UseHttpsRedirection();
       app.UseRouting();
       app.UseAuthorization();
+      app.UseAuthentication();
 
       app.UseEndpoints(endpoints =>
       {

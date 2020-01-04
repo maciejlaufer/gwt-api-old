@@ -14,12 +14,12 @@ namespace Gwt.Migrations
 
     public static void SeedUsers(GwtContext context)
     {
-      if (!context.Users.Any(x => x.Username == "sys_admin"))
+      if (!context.ApplicationUsers.Any(x => x.UserName == "sys_admin"))
       {
-        context.Users.Add(new User()
+        context.ApplicationUsers.Add(new ApplicationUser()
         {
           Id = Guid.NewGuid(),
-          Username = "sys_admin"
+          UserName = "sys_admin"
         });
         context.SaveChanges();
       }
