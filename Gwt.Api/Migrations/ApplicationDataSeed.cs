@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using Gwt.Models;
+using Gwt.Models.Identity;
 using Microsoft.Extensions.Configuration;
 
 namespace Gwt.Migrations

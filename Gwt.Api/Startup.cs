@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Gwt.Extensions;
 using Gwt.Models;
+using Gwt.Models.Identity;
 using Gwt.Repositories.User;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
