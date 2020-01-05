@@ -13,10 +13,5 @@ namespace Gwt.Extensions
     {
       return !context.Database.GetPendingMigrations().Any();
     }
-
-    public static void EnsureSeeded(this GwtContext context, bool isDevelopment)
-    {
-      ApplicationDataSeed.Seed(context, isDevelopment);
-    }
   }
 }

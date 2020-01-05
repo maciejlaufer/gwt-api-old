@@ -10,8 +10,15 @@ namespace Gwt.Migrations
 {
   internal static class ApplicationDataSeed
   {
-    public static void Seed(GwtContext context, bool isDevelopment)
+    public static void Seed(
+      GwtContext context,
+      UserManager<ApplicationUser> userManager,
+      RoleManager<ApplicationRole> roleManager,
+      ApplicationUserConfiguration userConfig,
+      bool isDevelopment)
     {
+      SeedRoles(roleManager);
+      SeedUsers(userManager, userConfig);
     }
 
     public static void SeedUsers(UserManager<ApplicationUser> userManager, ApplicationUserConfiguration config)
@@ -29,6 +36,21 @@ namespace Gwt.Migrations
         {
           userManager.AddToRoleAsync(adminUser, "SystemAdmin").Wait();
         }
+      }
+    }
+
+    public static void SeedRoles(RoleManager<ApplicationRole> roleManager)
+    {
+      var adminRoleName = "SystemAdmin";
+      if (!roleManager.RoleExistsAsync(adminRoleName).Result)
+      {
+        ApplicationRole systemAdminRole = new ApplicationRole
+        {
+          Id = Guid.NewGuid(),
+          Name = adminRoleName,
+          NormalizedName = adminRoleName.ToUpper()
+        };
+        IdentityResult result = roleManager.CreateAsync(systemAdminRole).Result;
       }
     }
   }

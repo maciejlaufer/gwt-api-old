@@ -7,13 +7,10 @@ using Microsoft.Extensions.Configuration;
 
 namespace Gwt.Models
 {
-  public class GwtContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+  public class GwtContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
   {
-    public GwtContext(DbContextOptions<GwtContext> options, IConfiguration config) : base(options)
-    {
-      Configuration = config;
-    }
-    public IConfiguration Configuration { get; }
+    public GwtContext(DbContextOptions<GwtContext> options) : base(options) { }
+
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
   }
 }

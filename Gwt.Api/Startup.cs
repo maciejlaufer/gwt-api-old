@@ -41,13 +41,13 @@ namespace Gwt.Api
         options.UseNpgsql(Configuration.GetConnectionString(nameof(GwtContext))));
 
 
-      services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+      services.AddIdentity<ApplicationUser, ApplicationRole>()
         .AddEntityFrameworkStores<GwtContext>()
         .AddDefaultTokenProviders();
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
     {
       //database migrations
       using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -59,7 +59,7 @@ namespace Gwt.Api
         }
 
         var userConfiguration = Configuration.GetSection("ApplicationAdminUser").Get<ApplicationUserConfiguration>();
-        ApplicationDataSeed.SeedUsers(userManager, userConfiguration);
+        ApplicationDataSeed.Seed(context, userManager, roleManager, userConfiguration, env.IsDevelopment());
       }
 
       if (env.IsDevelopment())
