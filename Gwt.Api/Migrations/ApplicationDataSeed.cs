@@ -1,7 +1,9 @@
 using System;
 using System.Linq;
 using Gwt.Models;
+using Gwt.Models.Configuration;
 using Gwt.Models.Identity;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 
 namespace Gwt.Migrations
@@ -10,19 +12,23 @@ namespace Gwt.Migrations
   {
     public static void Seed(GwtContext context, bool isDevelopment)
     {
-      SeedUsers(context);
     }
 
-    public static void SeedUsers(GwtContext context)
+    public static void SeedUsers(UserManager<ApplicationUser> userManager, ApplicationUserConfiguration config)
     {
-      if (!context.ApplicationUsers.Any(x => x.UserName == "sys_admin"))
+      if (userManager.FindByEmailAsync(config.Email).Result == null)
       {
-        context.ApplicationUsers.Add(new ApplicationUser()
+        ApplicationUser adminUser = new ApplicationUser
         {
-          Id = Guid.NewGuid(),
-          UserName = "sys_admin"
-        });
-        context.SaveChanges();
+          UserName = config.UserName,
+          Email = config.Email
+        };
+        IdentityResult result = userManager.CreateAsync(adminUser, config.Password).Result;
+
+        if (result.Succeeded)
+        {
+          userManager.AddToRoleAsync(adminUser, "SystemAdmin").Wait();
+        }
       }
     }
   }

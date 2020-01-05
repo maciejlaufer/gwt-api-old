@@ -1,15 +1,16 @@
 using System.Threading.Tasks;
+using Gwt.Controllers.Base;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gwt.Controllers
+namespace Gwt.Controllers.PersonalRecord
 {
-  public class PersonalRecordController : Controller
+  public class PersonalRecordController : BaseController
   {
-    [HttpGet("/api")]
-    [AllowAnonymous]
+    [Route("personal-records")]
     public async Task<IActionResult> Init()
     {
+
       return Ok("Hello world!");
     }
   }

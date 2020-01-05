@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Gwt.Extensions;
+using Gwt.Migrations;
 using Gwt.Models;
+using Gwt.Models.Configuration;
 using Gwt.Models.Identity;
 using Gwt.Repositories.User;
 using Microsoft.AspNetCore.Builder;
@@ -32,10 +34,12 @@ namespace Gwt.Api
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddTransient<IUserRepository, UserRepository>();
+
       services.AddControllers();
 
       services.AddDbContext<GwtContext>(options =>
         options.UseNpgsql(Configuration.GetConnectionString(nameof(GwtContext))));
+
 
       services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
         .AddEntityFrameworkStores<GwtContext>()
@@ -43,7 +47,7 @@ namespace Gwt.Api
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager)
     {
       //database migrations
       using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -54,7 +58,8 @@ namespace Gwt.Api
           context.Database.Migrate();
         }
 
-        // context.EnsureSeed-ed(env.IsDevelopment());
+        var userConfiguration = Configuration.GetSection("ApplicationAdminUser").Get<ApplicationUserConfiguration>();
+        ApplicationDataSeed.SeedUsers(userManager, userConfiguration);
       }
 
       if (env.IsDevelopment())
