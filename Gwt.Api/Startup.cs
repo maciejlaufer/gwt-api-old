@@ -47,7 +47,7 @@ namespace Gwt.Api
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-    public void Configure(IApplicationBuilder app, IWebHostEnvironment env, UserManager<ApplicationUser> userManager, RoleManager<ApplicationRole> roleManager)
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
       //database migrations
       using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
@@ -59,7 +59,7 @@ namespace Gwt.Api
         }
 
         var userConfiguration = Configuration.GetSection("ApplicationAdminUser").Get<ApplicationUserConfiguration>();
-        ApplicationDataSeed.Seed(context, userManager, roleManager, userConfiguration, env.IsDevelopment());
+        ApplicationDataSeed.Seed(serviceScope.ServiceProvider, userConfiguration, env.IsDevelopment());
       }
 
       if (env.IsDevelopment())

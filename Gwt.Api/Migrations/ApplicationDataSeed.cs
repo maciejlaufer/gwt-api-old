@@ -5,24 +5,24 @@ using Gwt.Models.Configuration;
 using Gwt.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Gwt.Migrations
 {
   internal static class ApplicationDataSeed
   {
     public static void Seed(
-      GwtContext context,
-      UserManager<ApplicationUser> userManager,
-      RoleManager<ApplicationRole> roleManager,
+      IServiceProvider serviceProvider,
       ApplicationUserConfiguration userConfig,
       bool isDevelopment)
     {
-      SeedRoles(roleManager);
-      SeedUsers(userManager, userConfig);
+      SeedRoles(serviceProvider);
+      SeedUsers(serviceProvider, userConfig);
     }
 
-    public static void SeedUsers(UserManager<ApplicationUser> userManager, ApplicationUserConfiguration config)
+    public static void SeedUsers(IServiceProvider serviceProvider, ApplicationUserConfiguration config)
     {
+      var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
       if (userManager.FindByEmailAsync(config.Email).Result == null)
       {
         ApplicationUser adminUser = new ApplicationUser
@@ -39,8 +39,9 @@ namespace Gwt.Migrations
       }
     }
 
-    public static void SeedRoles(RoleManager<ApplicationRole> roleManager)
+    public static void SeedRoles(IServiceProvider serviceProvider)
     {
+      var roleManager = serviceProvider.GetRequiredService<RoleManager<ApplicationRole>>();
       var adminRoleName = "SystemAdmin";
       if (!roleManager.RoleExistsAsync(adminRoleName).Result)
       {
