@@ -44,7 +44,6 @@ namespace Gwt.Api
 
       var jwtSettingsSection = Configuration.GetSection("JwtSettings");
       var _jwtSettings = jwtSettingsSection.Get<JwtSettings>();
-
       services.Configure<JwtSettings>(jwtSettingsSection);
 
       services.AddControllers();
