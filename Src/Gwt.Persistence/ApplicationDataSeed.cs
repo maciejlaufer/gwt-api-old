@@ -1,36 +1,33 @@
 using System;
-using System.Linq;
-using Gwt.Api.Models;
-using Gwt.Api.Models.Configuration;
-using Gwt.Api.Models.Identity;
+using Gwt.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gwt.Api.Migrations
+namespace Gwt.Persistence
 {
-  internal static class ApplicationDataSeed
+  public static class ApplicationDataSeed
   {
     public static void Seed(
       IServiceProvider serviceProvider,
-      ApplicationUserConfiguration userConfig,
+      IConfiguration config,
       bool isDevelopment)
     {
       SeedRoles(serviceProvider);
-      SeedUsers(serviceProvider, userConfig);
+      SeedUsers(serviceProvider, config);
     }
 
-    public static void SeedUsers(IServiceProvider serviceProvider, ApplicationUserConfiguration config)
+    public static void SeedUsers(IServiceProvider serviceProvider, IConfiguration config)
     {
       var userManager = serviceProvider.GetRequiredService<UserManager<ApplicationUser>>();
-      if (userManager.FindByEmailAsync(config.Email).Result == null)
+      if (userManager.FindByEmailAsync(config["Email"]).Result == null)
       {
         ApplicationUser adminUser = new ApplicationUser
         {
-          UserName = config.UserName,
-          Email = config.Email
+          UserName = config["UserName"],
+          Email = config["Email"]
         };
-        IdentityResult result = userManager.CreateAsync(adminUser, config.Password).Result;
+        IdentityResult result = userManager.CreateAsync(adminUser, config["Password"]).Result;
 
         if (result.Succeeded)
         {

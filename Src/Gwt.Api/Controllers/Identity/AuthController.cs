@@ -1,8 +1,7 @@
 using System.Threading.Tasks;
 using Gwt.Api.Controllers.Base;
 using Gwt.Api.Dto.Requests;
-using Gwt.Api.Models.Configuration;
-using Gwt.Api.Models.Identity;
+using Gwt.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

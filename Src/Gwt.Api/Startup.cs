@@ -4,11 +4,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Gwt.Api.Extensions;
-using Gwt.Api.Migrations;
-using Gwt.Api.Models;
-using Gwt.Api.Models.Configuration;
-using Gwt.Api.Models.Identity;
 using Gwt.Api.Repositories.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -21,6 +16,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Npgsql;
+using Gwt.Persistence;
+using Gwt.Domain.Entities;
+using Gwt.Persistence.Extensions;
+using Gwt.Api.Configuration;
 
 namespace Gwt.Api
 {
@@ -37,22 +36,18 @@ namespace Gwt.Api
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddPersistence(Configuration);
+
+      services.AddIdentity<ApplicationUser, ApplicationRole>()
+        .AddEntityFrameworkStores<GwtDbContext>()
+        .AddDefaultTokenProviders();
+
       var jwtSettingsSection = Configuration.GetSection("JwtSettings");
       var _jwtSettings = jwtSettingsSection.Get<JwtSettings>();
 
       services.Configure<JwtSettings>(jwtSettingsSection);
 
-      services.AddTransient<IUserRepository, UserRepository>();
-
       services.AddControllers();
-
-      services.AddDbContext<GwtContext>(options =>
-        options.UseNpgsql(Configuration.GetConnectionString(nameof(GwtContext))));
-
-
-      services.AddIdentity<ApplicationUser, ApplicationRole>()
-        .AddEntityFrameworkStores<GwtContext>()
-        .AddDefaultTokenProviders();
 
       JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // <= remove defaulta claims
       services.AddAuthentication(options =>
@@ -81,14 +76,13 @@ namespace Gwt.Api
       //database migrations
       using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
       {
-        var context = serviceScope.ServiceProvider.GetService<GwtContext>();
+        var context = serviceScope.ServiceProvider.GetService<GwtDbContext>();
         if (!context.AreAllMigrationsApplied())
         {
           context.Database.Migrate();
         }
 
-        var userConfiguration = Configuration.GetSection("ApplicationAdminUser").Get<ApplicationUserConfiguration>();
-        ApplicationDataSeed.Seed(serviceScope.ServiceProvider, userConfiguration, env.IsDevelopment());
+        ApplicationDataSeed.Seed(serviceScope.ServiceProvider, Configuration.GetSection("ApplicationAdminUser"), env.IsDevelopment());
       }
 
       if (env.IsDevelopment())
