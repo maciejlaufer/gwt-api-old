@@ -1,13 +1,13 @@
 using System;
 using System.Linq;
-using Gwt.Models;
-using Gwt.Models.Configuration;
-using Gwt.Models.Identity;
+using Gwt.Api.Models;
+using Gwt.Api.Models.Configuration;
+using Gwt.Api.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gwt.Migrations
+namespace Gwt.Api.Migrations
 {
   internal static class ApplicationDataSeed
   {

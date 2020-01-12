@@ -1,4 +1,4 @@
-namespace Gwt.Repositories.PersonalRecord
+namespace Gwt.Api.Repositories.PersonalRecord
 {
   interface IPersonalRecordRepository { }
 }

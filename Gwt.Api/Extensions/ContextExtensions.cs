@@ -1,11 +1,8 @@
 using System.Linq;
-using Gwt.Migrations;
-using Gwt.Models;
-using Gwt.Models.Identity;
-using Microsoft.AspNetCore.Identity;
+using Gwt.Api.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace Gwt.Extensions
+namespace Gwt.Api.Extensions
 {
   public static class ContextExtensions
   {

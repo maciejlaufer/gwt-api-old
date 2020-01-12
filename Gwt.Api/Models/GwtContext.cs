@@ -1,11 +1,11 @@
 using System;
-using Gwt.Models.Identity;
+using Gwt.Api.Models.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Gwt.Models
+namespace Gwt.Api.Models
 {
   public class GwtContext : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>
   {

@@ -1,4 +1,4 @@
-namespace Gwt.Repositories.User
+namespace Gwt.Api.Repositories.User
 {
   public class UserRepository : IUserRepository
   {

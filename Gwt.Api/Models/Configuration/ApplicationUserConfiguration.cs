@@ -1,4 +1,4 @@
-namespace Gwt.Models.Configuration
+namespace Gwt.Api.Models.Configuration
 {
   public class ApplicationUserConfiguration
   {
