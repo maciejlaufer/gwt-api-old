@@ -1,28 +1,35 @@
 using System.Threading.Tasks;
-using Gwt.Api.Controllers.Base;
 using Gwt.Api.Dto.Requests;
 using Gwt.Domain.Entities;
-using Microsoft.AspNetCore.Identity;
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
+using Gwt.Application.Identity.Commands.LoginUser;
+using Microsoft.AspNetCore.Identity;
 
-namespace Gwt.Api.Controllers.Identity
+namespace Gwt.Api.Controllers
 {
   public class AuthController : BaseController
   {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    private readonly IMediator _mediator;
+    public AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, IMediator mediator)
     {
       _userManager = userManager;
       _signInManager = signInManager;
+      _mediator = mediator;
+
     }
 
+    [AllowAnonymous]
     [HttpPost("login")]
     public async Task<IActionResult> LoginUser([FromBody] LoginRequest loginRequest)
     {
       if (ModelState.IsValid)
       {
+        await _mediator.Send(new LoginUserCommand(loginRequest.UsernameOrEmail, loginRequest.Password));
         var user = await _userManager.FindByEmailAsync(loginRequest.UsernameOrEmail);
         if (user == null)
         {

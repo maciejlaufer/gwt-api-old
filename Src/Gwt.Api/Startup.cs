@@ -20,6 +20,7 @@ using Gwt.Persistence;
 using Gwt.Domain.Entities;
 using Gwt.Persistence.Extensions;
 using Gwt.Api.Configuration;
+using Gwt.Application;
 
 namespace Gwt.Api
 {
@@ -37,6 +38,7 @@ namespace Gwt.Api
     public void ConfigureServices(IServiceCollection services)
     {
       services.AddPersistence(Configuration);
+      services.AddApplication();
 
       services.AddIdentity<ApplicationUser, ApplicationRole>()
         .AddEntityFrameworkStores<GwtDbContext>()

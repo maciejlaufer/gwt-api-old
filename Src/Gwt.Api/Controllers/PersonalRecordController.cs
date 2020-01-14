@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Gwt.Api.Controllers.Base;
 using Gwt.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

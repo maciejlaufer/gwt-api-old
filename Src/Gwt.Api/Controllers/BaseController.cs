@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace Gwt.Api.Controllers.Base
+namespace Gwt.Api.Controllers
 {
   [ApiController]
   [Route("/api")]
