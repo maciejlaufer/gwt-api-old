@@ -1,10 +1,9 @@
 using Gwt.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gwt.Persistence.Extensions
+namespace Gwt.Persistence
 {
   public static class DependencyInjection
   {

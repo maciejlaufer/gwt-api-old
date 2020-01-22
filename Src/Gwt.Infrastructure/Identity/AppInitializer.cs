@@ -4,9 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gwt.Infrastructure.Identity.Extensions
+namespace Gwt.Infrastructure.Identity
 {
-  public static class ApplicationBuilderExtensions
+  public static class AppInitializer
   {
     public static void InitializeIdentity(this IApplicationBuilder app, IConfiguration configuration, bool isDevelopment)
     {

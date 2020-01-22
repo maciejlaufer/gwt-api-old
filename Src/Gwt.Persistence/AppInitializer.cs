@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 
-namespace Gwt.Persistence.Extensions
+namespace Gwt.Persistence
 {
-  public static class AplicationBuilderExtensions
+  public static class AppInitializer
   {
     public static void InitializePersistence(this IApplicationBuilder app)
     {

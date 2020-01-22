@@ -12,9 +12,7 @@ using Gwt.Persistence;
 using Gwt.Api.Configuration;
 using Gwt.Application;
 using Gwt.Infrastructure;
-using Gwt.Infrastructure.Identity.Extensions;
 using Gwt.Infrastructure.Identity;
-using Gwt.Persistence.Extensions;
 
 namespace Gwt.Api
 {
