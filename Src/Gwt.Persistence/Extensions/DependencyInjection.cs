@@ -3,9 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
-using Gwt.Domain.Entities;
 
-namespace Gwt.Persistence
+namespace Gwt.Persistence.Extensions
 {
   public static class DependencyInjection
   {

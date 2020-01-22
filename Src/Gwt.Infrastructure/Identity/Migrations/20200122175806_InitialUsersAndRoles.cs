@@ -2,9 +2,9 @@
 using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
-namespace Gwt.Persistence.Migrations
+namespace Gwt.Infrastructure.Identity.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialUsersAndRoles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

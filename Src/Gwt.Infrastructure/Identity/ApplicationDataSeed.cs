@@ -1,10 +1,9 @@
 using System;
-using Gwt.Domain.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Gwt.Persistence
+namespace Gwt.Infrastructure.Identity
 {
   public static class ApplicationDataSeed
   {

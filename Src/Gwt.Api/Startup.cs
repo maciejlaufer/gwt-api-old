@@ -1,48 +1,41 @@
 using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Gwt.Api.Repositories.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
-using Npgsql;
 using Gwt.Persistence;
-using Gwt.Domain.Entities;
-using Gwt.Persistence.Extensions;
 using Gwt.Api.Configuration;
 using Gwt.Application;
+using Gwt.Infrastructure;
+using Gwt.Infrastructure.Identity.Extensions;
+using Gwt.Infrastructure.Identity;
+using Gwt.Persistence.Extensions;
 
 namespace Gwt.Api
 {
   public class Startup
   {
-    public Startup(IConfiguration configuration)
+    public Startup(IConfiguration configuration, IWebHostEnvironment environment)
     {
       Configuration = configuration;
+      Environment = environment;
     }
 
     public IConfiguration Configuration { get; }
+    public IWebHostEnvironment Environment { get; }
 
     // This method gets called by the runtime. Use this method to add services to the container.
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddInfrastructure(Configuration, Environment);
       services.AddPersistence(Configuration);
       services.AddApplication();
-
-      services.AddIdentity<ApplicationUser, ApplicationRole>()
-        .AddEntityFrameworkStores<GwtDbContext>()
-        .AddDefaultTokenProviders();
 
       var jwtSettingsSection = Configuration.GetSection("JwtSettings");
       var _jwtSettings = jwtSettingsSection.Get<JwtSettings>();
@@ -74,17 +67,8 @@ namespace Gwt.Api
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-      //database migrations
-      using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-      {
-        var context = serviceScope.ServiceProvider.GetService<GwtDbContext>();
-        if (!context.AreAllMigrationsApplied())
-        {
-          context.Database.Migrate();
-        }
-
-        ApplicationDataSeed.Seed(serviceScope.ServiceProvider, Configuration.GetSection("ApplicationAdminUser"), env.IsDevelopment());
-      }
+      app.InitializeIdentity(Configuration, env.IsDevelopment());
+      app.InitializePersistence();
 
       if (env.IsDevelopment())
       {

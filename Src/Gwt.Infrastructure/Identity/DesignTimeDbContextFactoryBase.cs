@@ -4,7 +4,7 @@ using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
 
-namespace Gwt.Persistence
+namespace Gwt.Infrastructure.Identity
 {
   public abstract class DesignTimeDbContextFactoryBase<TContext> :
       IDesignTimeDbContextFactory<TContext> where TContext : DbContext
