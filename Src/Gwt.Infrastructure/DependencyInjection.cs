@@ -3,7 +3,9 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Gwt.Application.Common.Interfaces;
 using Gwt.Application.Common.Models;
+using Gwt.Common;
 using Gwt.Infrastructure.Identity;
+using Gwt.Infrastructure.MachineDateTime;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
@@ -20,6 +22,7 @@ namespace Gwt.Infrastructure
     {
       services.AddScoped<IUserManager, UserManagerService>();
       services.AddScoped<ISignInManager, SignInManagerService>();
+      services.AddScoped<IDateTime, CurrentDateTime>();
 
       services.AddDbContext<ApplicationDbContext>(options =>
         options.UseNpgsql(configuration.GetConnectionString("GwtDbContext")));

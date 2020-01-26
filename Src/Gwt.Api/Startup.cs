@@ -7,6 +7,8 @@ using Gwt.Persistence;
 using Gwt.Application;
 using Gwt.Infrastructure;
 using Gwt.Infrastructure.Identity;
+using Gwt.Api.Services;
+using Gwt.Application.Common.Interfaces;
 
 namespace Gwt.Api
 {
@@ -28,6 +30,10 @@ namespace Gwt.Api
       services.AddInfrastructure(Configuration, Environment);
       services.AddPersistence(Configuration);
       services.AddApplication();
+
+      services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+      services.AddHttpContextAccessor();
 
       services.AddControllers();
     }

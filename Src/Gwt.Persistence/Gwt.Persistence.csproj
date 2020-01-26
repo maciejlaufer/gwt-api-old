@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Gwt.Application\Gwt.Application.csproj" />
+    <ProjectReference Include="..\Gwt.Common\Gwt.Common.csproj" />
   </ItemGroup>
 
 </Project>
