@@ -1,4 +1,4 @@
-namespace Gwt.Api.Configuration
+namespace Gwt.Application.Common.Models
 {
   public class JwtSettings
   {
