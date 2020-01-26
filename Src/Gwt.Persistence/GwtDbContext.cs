@@ -23,6 +23,7 @@ namespace Gwt.Persistence
     }
 
     public DbSet<Profile> Profiles { get; set; }
+    public DbSet<UserToken> UserTokens { get; set; }
 
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
