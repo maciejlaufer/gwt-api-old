@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Gwt.Application.Common.Models;
 
@@ -11,5 +12,6 @@ namespace Gwt.Application.Common.Interfaces
     Task<IApplicationUser> FindByEmailAsync(string email);
     Task<IApplicationUser> FindByNameAsync(string userName);
     Task<IApplicationUser> FindByIdAsync(Guid id);
+    Task<ICollection<string>> GetRolesByUserIdAsync(Guid userId);
   }
 }

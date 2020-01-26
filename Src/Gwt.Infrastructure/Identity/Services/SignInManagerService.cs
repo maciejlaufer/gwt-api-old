@@ -2,9 +2,11 @@ using System;
 using System.Threading.Tasks;
 using Gwt.Application.Common.Interfaces;
 using Gwt.Application.Common.Models;
+using Gwt.Infrastructure.Identity.Extensions;
+using Gwt.Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Gwt.Infrastructure.Identity
+namespace Gwt.Infrastructure.Identity.Services
 {
   public class SignInManagerService : ISignInManager
   {

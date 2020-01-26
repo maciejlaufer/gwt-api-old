@@ -2,7 +2,7 @@ using System.Linq;
 using Gwt.Application.Common.Models;
 using Microsoft.AspNetCore.Identity;
 
-namespace Gwt.Infrastructure.Identity
+namespace Gwt.Infrastructure.Identity.Extensions
 {
   public static class IdentityResultExtensions
   {

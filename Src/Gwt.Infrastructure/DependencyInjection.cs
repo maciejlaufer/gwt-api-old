@@ -13,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Gwt.Infrastructure.Identity.Models;
+using Gwt.Infrastructure.Identity.Services;
 
 namespace Gwt.Infrastructure
 {
@@ -23,7 +25,7 @@ namespace Gwt.Infrastructure
       services.AddScoped<IUserManager, UserManagerService>();
       services.AddScoped<ISignInManager, SignInManagerService>();
       services.AddScoped<IDateTime, CurrentDateTime>();
-      services.AddScoped<IUserTokenService, UserTokenService>();
+      services.AddScoped<IJwtTokenService, JwtTokenService>();
 
       services.AddDbContext<ApplicationDbContext>(options =>
         options.UseNpgsql(configuration.GetConnectionString("GwtDbContext")));

@@ -12,11 +12,18 @@ namespace Gwt.Api.Controllers
     private readonly IUserManager _userManager;
     private readonly ISignInManager _signInManager;
     private readonly IMediator _mediator;
-    public AuthController(IUserManager userManager, ISignInManager signInManager, IMediator mediator)
+    private readonly IJwtTokenService _jwtTokenService;
+    public AuthController(
+      IUserManager userManager,
+      ISignInManager signInManager,
+      IMediator mediator,
+      IJwtTokenService jwtTokenService
+    )
     {
       _userManager = userManager;
       _signInManager = signInManager;
       _mediator = mediator;
+      _jwtTokenService = jwtTokenService;
 
     }
 
@@ -24,7 +31,7 @@ namespace Gwt.Api.Controllers
     [HttpPost("login")]
     public async Task<IActionResult> LoginUser([FromBody] LoginRequest loginRequest)
     {
-      await _mediator.Send(new LoginUserCommand(loginRequest.UsernameOrEmail, loginRequest.Password));
+      // await _mediator.Send(new LoginUserCommand(loginRequest.UsernameOrEmail, loginRequest.Password));
       var user = await _userManager.FindByEmailAsync(loginRequest.UsernameOrEmail);
       if (user == null)
       {
@@ -38,7 +45,8 @@ namespace Gwt.Api.Controllers
       var canSignInResult = await _signInManager.CheckPasswordSignInByEmailAsync(user.Email, loginRequest.Password, false);
       if (canSignInResult.Succeeded)
       {
-        return Ok("Login action");
+        var (tokenId, token) = await _jwtTokenService.GenerateJwtToken(user.Email);
+        return Ok(token);
       };
 
       return BadRequest("Wrong creds");

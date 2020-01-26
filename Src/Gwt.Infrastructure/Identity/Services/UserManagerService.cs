@@ -4,8 +4,11 @@ using Gwt.Application.Common.Models;
 using System.Threading.Tasks;
 using Gwt.Application.Common.Interfaces;
 using System.Linq;
+using System.Collections.Generic;
+using Gwt.Infrastructure.Identity.Extensions;
+using Gwt.Infrastructure.Identity.Models;
 
-namespace Gwt.Infrastructure.Identity
+namespace Gwt.Infrastructure.Identity.Services
 {
   public class UserManagerService : IUserManager
   {
@@ -57,6 +60,12 @@ namespace Gwt.Infrastructure.Identity
     public async Task<IApplicationUser> FindByNameAsync(string userName)
     {
       return await _userManager.FindByNameAsync(userName);
+    }
+
+    public async Task<ICollection<string>> GetRolesByUserIdAsync(Guid userId)
+    {
+      var user = await _userManager.FindByIdAsync(userId.ToString());
+      return await _userManager.GetRolesAsync(user);
     }
   }
 }
