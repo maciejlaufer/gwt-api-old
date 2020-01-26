@@ -1,6 +1,6 @@
 using System;
 
-namespace Gwt.Domain.Entities
+namespace Gwt.Domain.Common
 {
   public interface IEntity
   {
