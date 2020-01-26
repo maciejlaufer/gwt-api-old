@@ -24,7 +24,7 @@ namespace Gwt.Infrastructure.Identity
       {
         ApplicationUser adminUser = new ApplicationUser
         {
-          UserName = config["UserName"],
+          UserName = config["Email"],
           Email = config["Email"]
         };
         IdentityResult result = userManager.CreateAsync(adminUser, config["Password"]).Result;

@@ -5,7 +5,7 @@ namespace Gwt.Api.Dto.Requests
   public class LoginRequest
   {
     [Required]
-    public string UsernameOrEmail { get; set; }
+    public string Email { get; set; }
     [Required]
     public string Password { get; set; }
   }

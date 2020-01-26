@@ -32,11 +32,7 @@ namespace Gwt.Api.Controllers
     public async Task<IActionResult> LoginUser([FromBody] LoginRequest loginRequest)
     {
       // await _mediator.Send(new LoginUserCommand(loginRequest.UsernameOrEmail, loginRequest.Password));
-      var user = await _userManager.FindByEmailAsync(loginRequest.UsernameOrEmail);
-      if (user == null)
-      {
-        user = await _userManager.FindByNameAsync(loginRequest.UsernameOrEmail);
-      }
+      var user = await _userManager.FindByEmailAsync(loginRequest.Email);
 
       if (user == null)
       {
