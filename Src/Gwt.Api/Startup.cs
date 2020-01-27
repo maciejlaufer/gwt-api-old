@@ -9,6 +9,7 @@ using Gwt.Infrastructure;
 using Gwt.Infrastructure.Identity;
 using Gwt.Api.Services;
 using Gwt.Application.Common.Interfaces;
+using Gwt.Api.Common.Extensions;
 
 namespace Gwt.Api
 {
@@ -49,6 +50,8 @@ namespace Gwt.Api
         app.UseDeveloperExceptionPage();
         app.UseStatusCodePages();
       }
+
+      app.UseCustomExceptionHandler();
 
       // app.UseHttpsRedirection();
       app.UseRouting();

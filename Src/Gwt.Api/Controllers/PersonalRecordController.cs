@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Gwt.Application.Common.Exceptions;
 using Gwt.Application.Common.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -18,6 +19,7 @@ namespace Gwt.Api.Controllers.PersonalRecord
     [Route("personal-records")]
     public async Task<IActionResult> Init()
     {
+      throw new NotFoundException("Message bad request");
       var test = _currentUserService.UserId;
       return Ok("Hello world!");
     }
