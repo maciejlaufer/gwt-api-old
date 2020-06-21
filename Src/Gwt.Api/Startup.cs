@@ -28,6 +28,17 @@ namespace Gwt.Api
     // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
     public void ConfigureServices(IServiceCollection services)
     {
+      services.AddCors(options =>
+        {
+            options.AddPolicy("CorsDevPolicy", builder =>
+            {
+                builder.WithOrigins("http://localhost:4200")
+                  .AllowAnyMethod()
+                  .AllowAnyHeader();
+            });
+
+        });
+
       services.AddInfrastructure(Configuration, Environment);
       services.AddPersistence(Configuration);
       services.AddApplication();
@@ -49,6 +60,7 @@ namespace Gwt.Api
       {
         app.UseDeveloperExceptionPage();
         app.UseStatusCodePages();
+        app.UseCors("CorsDevPolicy");
       }
 
       app.UseCustomExceptionHandler();

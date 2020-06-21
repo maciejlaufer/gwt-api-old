@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace Gwt.Api.Dto.Requests
+namespace Gwt.Api.Requests.Auth
 {
   public class LoginRequest
   {

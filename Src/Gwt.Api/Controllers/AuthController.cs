@@ -1,7 +1,9 @@
 using System.Threading.Tasks;
-using Gwt.Api.Dto.Requests;
+using Gwt.Api.Requests.Auth;
 using Gwt.Application.Common.Interfaces;
 using Gwt.Application.Users.Commands.LoginUser;
+using Gwt.Application.Common.Exceptions;
+using Gwt.Application.Users.Commands.RegisterUser;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -28,6 +30,18 @@ namespace Gwt.Api.Controllers
     }
 
     [AllowAnonymous]
+    [HttpPost("register")]
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterRequest registerRequest)
+    {
+      if(registerRequest.Password != registerRequest.RepeatPassword)
+      {
+        throw new BadRequestException("Passwords have to match");
+      }
+      var command = new RegisterUserCommand(registerRequest.Email, registerRequest.Firstname, registerRequest.Lastname, registerRequest.Password);
+      await _mediator.Send(command);
+      return Ok();
+    }
+
     [HttpPost("login")]
     public async Task<IActionResult> LoginUser([FromBody] LoginRequest loginRequest)
     {
